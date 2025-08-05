@@ -4,15 +4,23 @@ module Main where
 
 import System.Console.ANSI
 import System.IO
+import Renderer 
 import Buffer
-import Renderer
 
 main :: IO ()
 main = do
-    -- Configure terminal for raw input
     hSetBuffering stdin NoBuffering
     hSetEcho stdin False
     hSetBuffering stdout NoBuffering
+    hideCursor
     clearScreen
+    renderLoop 0 0 (Buffer "before" " after")
+    cleanup
 
-    renderLoop $ Buffer "before" "after"
+cleanup :: IO ()
+cleanup = do
+    showCursor
+    setSGR [Reset]
+    clearScreen
+    setCursorPosition 0 0
+    hSetEcho stdin True

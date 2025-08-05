@@ -65,6 +65,7 @@ executable textEditor
     other-modules:
         Renderer
         Buffer
+        Keys
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
