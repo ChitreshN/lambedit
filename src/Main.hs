@@ -6,6 +6,7 @@ import System.Console.ANSI
 import System.IO
 import Renderer 
 import Buffer
+import Doc
 
 main :: IO ()
 main = do
@@ -14,7 +15,7 @@ main = do
     hSetBuffering stdout NoBuffering
     hideCursor
     clearScreen
-    renderLoop 0 0 (Buffer "before" " after")
+    renderLoop' initDoc
     cleanup
 
 cleanup :: IO ()

@@ -38,13 +38,6 @@ getString c (Buffer b a) =
 
 printBuffer :: Buffer -> IO ()
 printBuffer buf = putStrLn $ getString 0 buf
-
-data Doc = Doc
-  { buffer :: Buffer
-  , cursor :: (Int, Int)
-  , depth  :: Int
-  }
-
 -- doc state -> input -> new doc state
 -- render loop should ideally have just the doc state as input, it should get key and update doc state
 -- the update function should be pure
