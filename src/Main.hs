@@ -1,11 +1,8 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Main where
 
 import System.Console.ANSI
 import System.IO
 import Renderer 
-import Buffer
 import Doc
 
 main :: IO ()
@@ -15,7 +12,7 @@ main = do
     hSetBuffering stdout NoBuffering
     hideCursor
     clearScreen
-    renderLoop' initDoc
+    renderLoop initDoc
     cleanup
 
 cleanup :: IO ()
