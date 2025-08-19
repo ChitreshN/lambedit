@@ -1,6 +1,6 @@
 module Keys where
 
-data Key = ArrowUp | ArrowDown | ArrowLeft | ArrowRight | Delete | Key Char
+data Key = ArrowUp | ArrowDown | ArrowLeft | ArrowRight | Delete | Key Char | NewLine
 
 getKey :: IO Key
 getKey = do
@@ -16,4 +16,6 @@ getKey = do
                 "[C" -> return ArrowRight
                 _    -> error "Invalid escape sequence"
         '\DEL' -> return Delete
+        '\n'   -> return NewLine
+        '\r'   -> return NewLine
         _      -> return (Key c)

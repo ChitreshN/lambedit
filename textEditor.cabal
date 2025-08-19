@@ -76,6 +76,8 @@ executable textEditor
     build-depends:    
         base ^>=4.18.2.1
         , ansi-terminal
+        , containers
+        , text
 
     -- Directories containing source files.
     hs-source-dirs:   src

@@ -15,17 +15,25 @@ initDoc = Doc infiniteEmpty (0, 0) 0
 
 updateDoc :: Doc -> Key -> Doc
 updateDoc d k = case k of
-  ArrowUp -> changeCursorBy d (-1) 0
+  ArrowUp -> changeCursorBy d (-1) 0 -- limit checking here
   ArrowDown -> changeCursorBy d 1 0
   ArrowLeft -> changeCursorBy d 0 (-1)
   ArrowRight -> changeCursorBy d 0 1
+  NewLine -> setCursorToStart (changeCursorBy d 1 0)
   Key x -> insertChar d x
   Delete -> deleteChar d
 
 changeCursorBy :: Doc -> Int -> Int -> Doc
-changeCursorBy d r c = d{cursor = (x + r, y + c)}
+changeCursorBy d r c = d{cursor = newCursor}
  where
   (x, y) = cursor d
+  le = lineEnd (content d !! (x + r))
+  newCursor = (x + r, min le (y + c))
+
+setCursorToStart :: Doc -> Doc
+setCursorToStart d = d{cursor = (x, 0)}
+  where
+    (x, _) = cursor d
 
 insertChar :: Doc -> Char -> Doc
 insertChar d k =

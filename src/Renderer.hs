@@ -28,3 +28,6 @@ renderLoop d = do
 
   threadDelay 33333
   renderLoop updatedDoc
+
+
+-- TODO: diff previous and current doc and only render the differences
