@@ -22,7 +22,7 @@ updateDoc d k = case k of
   ArrowDown -> changeCursorBy d 1 0 -- and here (or inside changerCursorBy)
   ArrowLeft -> changeCursorBy d 0 (-1)
   ArrowRight -> changeCursorBy d 0 1
-  NewLine -> setCursorToStart (changeCursorBy d 1 0)
+  NewLine -> setCursorToStartofNextLine (changeCursorBy d 1 0)
   Key x -> insertChar d x
   Delete -> deleteChar d
 
@@ -30,16 +30,17 @@ changeCursorBy :: Doc -> Int -> Int -> Doc
 changeCursorBy d r c = d{cursor = newCursor}
  where
   (x, y) = cursor d
+  de = depth d
   le =
     lineEnd
       ( case S.lookup (x + r) (content d) of
           Just b -> b
           _ -> Buffer{lineEnd = 0, before = S.empty, after = S.empty}
       )
-  newCursor = (x + r, min le (y + c))
+  newCursor = (min de (x + r), min le (y + c))
 
-setCursorToStart :: Doc -> Doc
-setCursorToStart d = d{cursor = (x, 0)}
+setCursorToStartofNextLine :: Doc -> Doc
+setCursorToStartofNextLine d = d{cursor = (x + 1, 0)}
  where
   (x, _) = cursor d
 
