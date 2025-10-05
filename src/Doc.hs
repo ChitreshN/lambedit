@@ -41,9 +41,19 @@ changeCursorBy d r c = d{cursor = newCursor}
   newCursor = (x', min le (y + c))
 
 setCursorToStartofNextLine :: Doc -> Doc
-setCursorToStartofNextLine d = d{cursor = (x + 1, 0)}
+setCursorToStartofNextLine d =
+  Doc
+    { cursor = (x + 1, 0)
+    , content = newcontent
+    , depth = depth d + 1
+    }
  where
   (x, _) = cursor d
+  newcontent =
+    S.insertAt
+      (x + 1)
+      (Buffer{lineEnd = 0, before = S.empty, after = S.empty})
+      (content d)
 
 insertChar :: Doc -> Char -> Doc
 insertChar d k =
@@ -57,11 +67,11 @@ insertChar d k =
   newCursor = (x, y + 1)
   contentPrev = case S.lookup x (content d) of
     Just _ -> content d
-    Nothing -> 
-        S.insertAt
-          x
-          (Buffer{lineEnd = 0, before = S.empty, after = S.empty})
-          (content d)
+    Nothing ->
+      S.insertAt
+        x
+        (Buffer{lineEnd = 0, before = S.empty, after = S.empty})
+        (content d)
 
 deleteChar :: Doc -> Doc
 deleteChar d =
