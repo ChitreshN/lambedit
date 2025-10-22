@@ -1,6 +1,7 @@
 module Renderer.Renderer where
 
 import Control.Concurrent (threadDelay)
+import Renderer.ViewPort
 import Keys
 import System.Console.ANSI
 import Doc
@@ -36,3 +37,17 @@ renderLoop d = do
  -}
 
 renderLoopWithViewPort :: Doc -> ViewPort -> IO ()
+renderLoopWithViewPort d v = do
+  let renderDoc = docToViewPort d v
+  setCursorPosition 0 0
+  clearFromCursorToScreenEnd
+  printRenderDoc renderDoc
+  let (r, c) = renderCursor renderDoc
+  setCursorPosition r c
+  showCursor
+
+  key <- getKey
+  let newDoc = updateDoc d key
+
+  threadDelay 33333
+  renderLoopWithViewPort newDoc v

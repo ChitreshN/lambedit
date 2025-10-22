@@ -1,4 +1,4 @@
-module Doc (Doc (cursor), initDoc, updateDoc, printDoc) where
+module Doc (Doc (cursor, content), initDoc, updateDoc, printDoc) where
 
 import Buffer
 import Data.Foldable
