@@ -2,7 +2,8 @@ module Main where
 
 import System.Console.ANSI
 import System.IO
-import Renderer 
+import Renderer.Renderer
+import Renderer.ViewPort
 import Doc
 
 main :: IO ()
@@ -12,7 +13,7 @@ main = do
     hSetBuffering stdout NoBuffering
     hideCursor
     clearScreen
-    renderLoop initDoc
+    renderLoopWithViewPort initDoc (ViewPort 0 10)
     cleanup
 
 cleanup :: IO ()
