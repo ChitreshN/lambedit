@@ -9,8 +9,8 @@ replaceAt = Seq.update
 emptyBuf :: Seq.Seq Buffer
 emptyBuf = Seq.Empty
 
-spliceSeq :: Seq.Seq a -> Int -> Int -> Seq.Seq a
-spliceSeq s h t = final
+sliceSeq :: Seq.Seq a -> Int -> Int -> Seq.Seq a
+sliceSeq s h t = final
   where
     leftToT = Seq.take t s
     final = Seq.drop h leftToT
