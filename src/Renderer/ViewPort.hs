@@ -1,5 +1,5 @@
 module Renderer.ViewPort (
-  ViewPort (ViewPort),
+  ViewPort (..),
   RenderDoc (renderCursor),
   docToViewPort,
   printRenderDoc,
@@ -33,5 +33,5 @@ docToViewPort d v = docToRender
     | x > bottom v = (bottom v, y)
     | otherwise = (x, y)
 
-  contentToRender = spliceSeq (content d) (top v) (bottom v)
+  contentToRender = sliceSeq (content d) (top v) (bottom v)
   docToRender = RenderDoc{rendercontent = contentToRender, renderCursor = (newx, newy)}
