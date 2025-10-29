@@ -15,6 +15,7 @@ data ViewPort = ViewPort
   { top :: Int
   , bottom :: Int
   }
+  deriving (Show)
 
 data RenderDoc = RenderDoc
   { rendercontent :: S.Seq Buffer
@@ -34,4 +35,8 @@ docToViewPort d v = docToRender
     | otherwise = (x, y)
 
   contentToRender = sliceSeq (content d) (top v) (bottom v)
-  docToRender = RenderDoc{rendercontent = contentToRender, renderCursor = (newx, newy)}
+  docToRender =
+    RenderDoc
+      { rendercontent = contentToRender
+      , renderCursor = (newx - top v, newy)
+      }
