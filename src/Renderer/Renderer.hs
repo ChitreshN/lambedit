@@ -1,4 +1,4 @@
-module Renderer.Renderer where
+module Renderer.Renderer (renderLoopWithViewPort) where
 
 import Control.Concurrent (threadDelay)
 import Renderer.ViewPort
