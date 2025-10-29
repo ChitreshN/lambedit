@@ -50,8 +50,8 @@ renderLoopWithViewPort d v = do
   let newDoc = updateDoc d key
   let (x, _) = cursor newDoc
       newViewPort
-        | x <= top v = ViewPort (top v - 1) (bottom v - 1)
-        | x >= bottom v = ViewPort (top v + 1) (bottom v + 1)
+        | x < top v = ViewPort (top v - 1) (bottom v - 1)
+        | x > bottom v = ViewPort (top v + 1) (bottom v + 1)
         | otherwise = ViewPort (top v) (bottom v)
 
   threadDelay 33333

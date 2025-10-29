@@ -12,5 +12,5 @@ emptyBuf = Seq.Empty
 sliceSeq :: Seq.Seq a -> Int -> Int -> Seq.Seq a
 sliceSeq s h t = final
   where
-    leftToT = Seq.take t s
+    leftToT = Seq.take (t+1) s
     final = Seq.drop h leftToT
