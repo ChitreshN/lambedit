@@ -2,7 +2,7 @@ module Main where
 
 import System.Console.ANSI
 import System.IO
-import Renderer.Renderer
+import Renderer.Renderer (renderLoopWithViewPort)
 import Renderer.ViewPort
 import Doc
 
