@@ -103,6 +103,7 @@ test-suite test-library
         Tests.DocTests
         Tests.BufferTests
         Tests.Utils.ListUtilsTests
+        Tests.Renderer.ViewPortTests
     build-depends:
         base ^>=4.18.2.1,
         textEditorLib, 
