@@ -1,4 +1,4 @@
-module Doc (Doc (cursor, content), initDoc, updateDoc, printDoc) where
+module Doc (Doc (cursor, content, depth), initDoc, updateDoc, printDoc) where
 
 import Buffer
 import Data.Foldable
@@ -18,8 +18,8 @@ initDoc = Doc emptyBuf (0, 0) 0
 
 updateDoc :: Doc -> Key -> Doc
 updateDoc d k = case k of
-  ArrowUp -> changeCursorBy d (-1) 0 -- limit checking here
-  ArrowDown -> changeCursorBy d 1 0 -- and here (or inside changerCursorBy)
+  ArrowUp -> changeCursorBy d (-1) 0
+  ArrowDown -> changeCursorBy d 1 0
   ArrowLeft -> changeCursorBy d 0 (-1)
   ArrowRight -> changeCursorBy d 0 1
   NewLine -> setCursorToStartofNextLine d
@@ -31,7 +31,7 @@ changeCursorBy d r c = d{cursor = newCursor}
  where
   (x, y) = cursor d
   de = depth d
-  x' = min de (x + r)
+  x' = min de (max 0 (x + r))
   le =
     lineEnd
       ( case S.lookup x' (content d) of
