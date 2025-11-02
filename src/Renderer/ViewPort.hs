@@ -1,6 +1,6 @@
 module Renderer.ViewPort (
   ViewPort (..),
-  RenderDoc (renderCursor),
+  RenderDoc (rendercontent, renderCursor),
   docToViewPort,
   printRenderDoc,
 ) where
@@ -22,9 +22,6 @@ data RenderDoc = RenderDoc
   , renderCursor :: (Int, Int)
   }
 
-printRenderDoc :: RenderDoc -> IO ()
-printRenderDoc r = printList (toList (rendercontent r))
-
 docToViewPort :: Doc -> ViewPort -> RenderDoc
 docToViewPort d v = docToRender
  where
@@ -40,3 +37,6 @@ docToViewPort d v = docToRender
       { rendercontent = contentToRender
       , renderCursor = (newx - top v, newy)
       }
+
+printRenderDoc :: RenderDoc -> IO ()
+printRenderDoc r = printList (toList (rendercontent r))
