@@ -101,6 +101,7 @@ test-suite test-library
     main-is: unittests.hs
     other-modules:
         Tests.DocTests
+        Tests.BufferTests
     build-depends:
         base ^>=4.18.2.1,
         textEditorLib, 
