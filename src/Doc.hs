@@ -16,6 +16,9 @@ data Doc = Doc
 initDoc :: Doc
 initDoc = Doc emptyBuf (0, 0) 0
 
+docWithContent :: S.Seq Buffer -> Doc
+docWithContent c = Doc c (0, 0) (S.length c)
+
 updateDoc :: Doc -> Key -> Doc
 updateDoc d k = case k of
   ArrowUp -> changeCursorBy d (-1) 0
