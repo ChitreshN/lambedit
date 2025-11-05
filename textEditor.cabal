@@ -64,6 +64,7 @@ library textEditorLib
         Utils.ListUtils
         Renderer.Renderer
         Renderer.ViewPort
+        FileSystem.LoadFile
     build-depends:    
         base ^>=4.18.2.1
         , ansi-terminal
