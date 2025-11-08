@@ -18,6 +18,7 @@ main = do
           let doc = docWithContent lfile
           runEditor doc
         _ -> putStrLn "Usage: lambedit [file]"
+    cleanup
 
 runEditor :: Doc -> IO ()
 runEditor doc = do

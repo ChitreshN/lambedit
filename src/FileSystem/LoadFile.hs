@@ -1,9 +1,9 @@
-module FileSystem.LoadFile(loadFile) where
+module FileSystem.LoadFile (loadFile) where
 
+import Buffer
+import qualified Data.Sequence as S
 import qualified Data.Text as T
 import qualified Data.Text.IO as T.IO
-import qualified Data.Sequence as S
-import           Buffer
 
 loadFile :: FilePath -> IO (S.Seq Buffer)
 loadFile fp = do
@@ -13,7 +13,8 @@ loadFile fp = do
 extractBuffer :: T.Text -> S.Seq Buffer
 extractBuffer t =
   let ls = T.lines t
-  in S.fromList $ map (\l -> Buffer (textToSeq l) S.Empty (length (T.unpack l))) ls
+   in S.fromList $
+        map (\l -> Buffer (textToSeq l) S.Empty (length (T.unpack l))) ls
 
 textToSeq :: T.Text -> S.Seq Char
 textToSeq = S.fromList . T.unpack
