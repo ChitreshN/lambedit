@@ -76,5 +76,13 @@ updateDocTests =
                 "content should be 'a'"
                 (fmap getString expectedContent)
                 (fmap getString (content doc))
-              assertEqual "cursor should be at (0,1)" (0, 1) (cursor doc)
+              assertEqual "cursor should be at (0,3)" (0, 3) (cursor doc)
+     , testCase "delete in middle" $
+        let doc = foldl updateDoc initDoc [Key 'a', Key 'b', Key 'c', Key 'd', ArrowLeft, Delete, Delete]
+            expectedContent = S.singleton (bufferFromString "ad")
+        in do
+          assertEqual
+            "content should be 'ad'"
+            (fmap getString expectedContent)
+            (fmap getString (content doc))
     ]
