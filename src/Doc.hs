@@ -85,7 +85,7 @@ deleteChar d =
     }
  where
   (x, y) = cursor d
-  newCursor = (x, y - 1)
+  newCursor = (x, min y (lineEnd (S.index (content d) x)))
 
 printDoc :: Doc -> IO ()
 printDoc doc = printList (take d (toList c))
