@@ -1,4 +1,4 @@
-module Doc (Doc (..), initDoc, updateDoc, printDoc, docWithContent) where
+module Doc (Doc (..), initDoc, updateDoc, printDoc, docWithContent, printLine) where
 
 import Buffer
 import Data.Foldable
@@ -92,3 +92,6 @@ printDoc doc = printList (take d (toList c))
  where
   d = depth doc + 1
   c = content doc
+
+printLine :: Doc -> Int -> IO ()
+printLine doc i = forM_ (S.lookup i (content doc)) printBuffer

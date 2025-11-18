@@ -1,4 +1,4 @@
-module Renderer.Renderer (renderLoopWithViewPort) where
+module Renderer.Renderer (renderLoopWithViewPort, renderLoop) where
 
 import Control.Concurrent (threadDelay)
 import Renderer.ViewPort
@@ -13,10 +13,10 @@ renderLoop d = do
         Just (h, w) -> (h - 1, w - 1)
         Nothing -> (24, 80) -- fallback
 
-  setCursorPosition 0 0
-  clearFromCursorToScreenEnd
-  printDoc d
   let (r, c) = cursor d
+  setCursorPosition r 0
+  clearFromCursorToLineEnd
+  printLine d r
   setCursorPosition r c
   showCursor
 

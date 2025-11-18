@@ -3,7 +3,7 @@ module Main where
 import System.Console.ANSI
 import System.IO
 import System.Environment (getArgs)
-import Renderer.Renderer (renderLoopWithViewPort)
+import Renderer.Renderer
 import Renderer.ViewPort
 import Doc
 import FileSystem.LoadFile (loadFile)
@@ -27,7 +27,8 @@ runEditor doc = do
     hSetBuffering stdout NoBuffering
     hideCursor
     clearScreen
-    renderLoopWithViewPort doc (ViewPort 0 10)
+    -- renderLoopWithViewPort doc (ViewPort 0 10)
+    renderLoop doc
     cleanup
 
 cleanup :: IO ()
