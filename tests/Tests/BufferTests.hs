@@ -7,48 +7,19 @@ import Test.Tasty.HUnit
 
 -- Helper to create an empty buffer
 emptyBuffer :: Buffer
-emptyBuffer = Buffer S.empty S.empty 0
+emptyBuffer = Buffer S.empty 0
 
 -- Helper to create a buffer from a string, with cursor at the end
 bufferFromString :: String -> Buffer
-bufferFromString s = Buffer (S.fromList s) S.empty (length s)
+bufferFromString s = Buffer (S.fromList s) (length s)
 
 tests :: TestTree
 tests =
   testGroup
     "Buffer Tests"
-    [ insertTests
-    , deleteTests
-    , insertAtTests
+    [ insertAtTests
     , deleteAtTests
     , getStringTests
-    ]
-
-insertTests :: TestTree
-insertTests =
-  testGroup
-    "insert"
-    [ testCase "insert into empty buffer" $
-        let buf = insert emptyBuffer 'a'
-         in assertEqual "should contain 'a'" "a" (getString buf)
-    , testCase "insert into non-empty buffer" $
-        let buf = insert (bufferFromString "a") 'b'
-         in assertEqual "should contain 'ab'" "ab" (getString buf)
-    ]
-
-deleteTests :: TestTree
-deleteTests =
-  testGroup
-    "delete"
-    [ testCase "delete from empty buffer" $
-        let buf = delete emptyBuffer
-         in assertEqual "should be empty" "" (getString buf)
-    , testCase "delete from single-char buffer" $
-        let buf = delete (bufferFromString "a")
-         in assertEqual "should be empty" "" (getString buf)
-    , testCase "delete from multi-char buffer" $
-        let buf = delete (bufferFromString "ab")
-         in assertEqual "should contain 'a'" "a" (getString buf)
     ]
 
 insertAtTests :: TestTree

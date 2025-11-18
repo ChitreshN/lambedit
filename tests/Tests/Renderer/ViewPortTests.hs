@@ -9,7 +9,7 @@ import Test.Tasty.HUnit
 
 -- Helper to create a buffer from a string
 bufferFromString :: String -> B.Buffer
-bufferFromString s = B.Buffer{B.before = S.fromList s, B.after = S.empty, B.lineEnd = length s}
+bufferFromString s = B.Buffer (S.fromList s) (length s)
 
 -- Helper to create a doc from a list of strings
 docFromStrings :: [String] -> (Int, Int) -> Doc
