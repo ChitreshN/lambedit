@@ -39,7 +39,7 @@ changeCursorBy d r c = d{cursor = newCursor}
     lineEnd
       ( case S.lookup x' (content d) of
           Just b -> b
-          _ -> Buffer{lineEnd = 0, before = S.empty, after = S.empty}
+          _ -> Buffer{lineEnd = 0, buffer = S.empty}
       )
   newCursor = (x', min le (y + c))
 
@@ -55,7 +55,7 @@ setCursorToStartofNextLine d =
   newcontent =
     S.insertAt
       (x + 1)
-      (Buffer{lineEnd = 0, before = S.empty, after = S.empty})
+      (Buffer{lineEnd = 0, buffer = S.empty})
       (content d)
 
 insertChar :: Doc -> Char -> Doc
@@ -73,7 +73,7 @@ insertChar d k =
     Nothing ->
       S.insertAt
         x
-        (Buffer{lineEnd = 0, before = S.empty, after = S.empty})
+        (Buffer{lineEnd = 0, buffer = S.empty})
         (content d)
 
 deleteChar :: Doc -> Doc
@@ -85,7 +85,7 @@ deleteChar d =
     }
  where
   (x, y) = cursor d
-  newCursor = (x, min y (lineEnd (S.index (content d) x)))
+  newCursor = (x, max (y-1) 0)
 
 printDoc :: Doc -> IO ()
 printDoc doc = printList (take d (toList c))

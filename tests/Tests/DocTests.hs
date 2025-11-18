@@ -9,7 +9,7 @@ import Test.Tasty.HUnit
 
 -- Helper to create a buffer from a string
 bufferFromString :: String -> Buffer
-bufferFromString s = Buffer (S.fromList s) S.empty (length s)
+bufferFromString s = Buffer (S.fromList s) (length s)
 
 tests :: TestTree
 tests =
@@ -69,14 +69,14 @@ updateDocTests =
               assertEqual "cursor should be at (1,1)" (1, 1) (cursor doc)
               assertEqual "depth should be 1" 1 (depth doc)
     , testCase "delete characters" $
-        let doc = foldl updateDoc initDoc [Key 'a', Key 'b', Key 'c', Delete, Delete]
-            expectedContent = S.singleton (bufferFromString "a")
+        let doc = foldl updateDoc initDoc [Key 'a', Key 'b', Key 'c', Key 'd', Delete, Delete]
+            expectedContent = S.singleton (bufferFromString "ab")
          in do
               assertEqual
-                "content should be 'a'"
+                "content should be 'ab'"
                 (fmap getString expectedContent)
                 (fmap getString (content doc))
-              assertEqual "cursor should be at (0,3)" (0, 3) (cursor doc)
+              assertEqual "cursor should be at (0,2)" (0, 2) (cursor doc)
      , testCase "delete in middle" $
         let doc = foldl updateDoc initDoc [Key 'a', Key 'b', Key 'c', Key 'd', ArrowLeft, Delete, Delete]
             expectedContent = S.singleton (bufferFromString "ad")
