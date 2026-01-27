@@ -27,8 +27,8 @@ runEditor doc = do
     hSetBuffering stdout NoBuffering
     hideCursor
     clearScreen
-    -- renderLoopWithViewPort doc (ViewPort 0 10)
-    renderLoop doc
+    renderLoopWithViewPort doc (ViewPort 0 10 True)
+    -- renderLoop doc
     cleanup
 
 cleanup :: IO ()

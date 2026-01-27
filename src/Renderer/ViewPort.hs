@@ -3,6 +3,7 @@ module Renderer.ViewPort (
   RenderDoc (rendercontent, renderCursor),
   docToViewPort,
   printRenderDoc,
+  printViewportLine,
 ) where
 
 import Buffer
@@ -14,6 +15,7 @@ import Utils.ListUtils
 data ViewPort = ViewPort
   { top :: Int
   , bottom :: Int
+  , changed :: Bool
   }
   deriving (Show)
 
@@ -40,3 +42,6 @@ docToViewPort d v = docToRender
 
 printRenderDoc :: RenderDoc -> IO ()
 printRenderDoc r = printList (toList (rendercontent r))
+
+printViewportLine :: RenderDoc -> Int -> IO ()
+printViewportLine r i = forM_ (S.lookup i (rendercontent r)) printBuffer
