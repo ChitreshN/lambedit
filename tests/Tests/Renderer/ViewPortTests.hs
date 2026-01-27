@@ -33,7 +33,7 @@ docToViewPortTests =
     "docToViewPort"
     [ testCase "doc fits completely in viewport" $
         let d = docFromStrings ["line1", "line2", "line3"] (0, 0)
-            v = ViewPort 0 2
+            v = ViewPort 0 2 False
             rd = docToViewPort d v
          in do
               assertEqual
@@ -43,7 +43,7 @@ docToViewPortTests =
               assertEqual "render cursor should be the same" (cursor d) (renderCursor rd)
     , testCase "doc is larger than viewport, cursor inside" $
         let d = docFromStrings ["line1", "line2", "line3", "line4", "line5"] (2, 1)
-            v = ViewPort 1 3
+            v = ViewPort 1 3 False
             rd = docToViewPort d v
             expectedContent =
               S.fromList
@@ -56,7 +56,7 @@ docToViewPortTests =
               assertEqual "render cursor should be relative" (1, 1) (renderCursor rd)
     , testCase "cursor is above viewport" $
         let d = docFromStrings ["line1", "line2", "line3", "line4", "line5"] (0, 1)
-            v = ViewPort 2 4
+            v = ViewPort 2 4 False
             rd = docToViewPort d v
             expectedContent =
               S.fromList
@@ -69,7 +69,7 @@ docToViewPortTests =
               assertEqual "render cursor should be relative to top" (0, 1) (renderCursor rd)
     , testCase "cursor is below viewport" $
         let d = docFromStrings ["line1", "line2", "line3", "line4", "line5"] (4, 1)
-            v = ViewPort 0 2
+            v = ViewPort 0 2 False
             rd = docToViewPort d v
             expectedContent =
               S.fromList
