@@ -1,10 +1,9 @@
 module Renderer.Renderer (renderLoopWithViewPort, renderLoop) where
 
-import Control.Concurrent (threadDelay)
-import Renderer.ViewPort
-import Keys
-import System.Console.ANSI
 import Doc
+import Keys
+import Renderer.ViewPort
+import System.Console.ANSI
 
 renderLoop :: Doc -> IO ()
 renderLoop d = do
@@ -12,10 +11,9 @@ renderLoop d = do
   let (maxr, maxc) = case s of
         Just (h, w) -> (h - 1, w - 1)
         Nothing -> (24, 80) -- fallback
-
   let (r, c) = cursor d
   setCursorPosition r 0
-  clearFromCursorToLineEnd
+  clearLine
   printLine d r
   setCursorPosition r c
   showCursor
@@ -25,19 +23,12 @@ renderLoop d = do
 
   let (r', c') = cursor newDoc
       (newr, newc) = (max 0 (min maxr r'), max 0 (min maxc c'))
-      updatedDoc = newDoc {cursor = (newr, newc)}
+      updatedDoc = newDoc{cursor = (newr, newc)}
 
-  threadDelay 33333
   renderLoop updatedDoc
 
-
-{-
-- Use a viewport to render the document.
-- with this approach, we can potentially implement scrolling as well.
- -}
-
-renderLoopWithViewPort :: Doc -> ViewPort -> IO ()
-renderLoopWithViewPort d v = do
+renderLoopWithViewPortRe :: Doc -> ViewPort -> IO ()
+renderLoopWithViewPortRe d v = do
   let renderDoc = docToViewPort d v
   setCursorPosition 0 0
   clearFromCursorToScreenEnd
@@ -50,9 +41,40 @@ renderLoopWithViewPort d v = do
   let newDoc = updateDoc d key
   let (x, _) = cursor newDoc
       newViewPort
-        | x < top v = ViewPort (top v - 1) (bottom v - 1)
-        | x > bottom v = ViewPort (top v + 1) (bottom v + 1)
-        | otherwise = ViewPort (top v) (bottom v)
+        | x < top v = ViewPort (top v - 1) (bottom v - 1) True
+        | x > bottom v = ViewPort (top v + 1) (bottom v + 1) True
+        | otherwise = ViewPort (top v) (bottom v) False
 
-  threadDelay 33333
-  renderLoopWithViewPort newDoc newViewPort
+  renderLoopWithViewPortRe newDoc newViewPort
+
+renderLoopWithViewPortLine :: Doc -> ViewPort -> IO ()
+renderLoopWithViewPortLine d v = do
+  let renderDoc = docToViewPort d v
+  let (r, c) = renderCursor renderDoc
+  setCursorPosition r 0
+  clearLine
+  printLine d r
+  setCursorPosition r c
+  showCursor
+
+  key <- getKey
+  let newDoc = updateDoc d key
+  let (x, _) = cursor newDoc
+      newViewPort
+        | x < top v = ViewPort (top v - 1) (bottom v - 1) True
+        | x > bottom v = ViewPort (top v + 1) (bottom v + 1) True
+        | otherwise = ViewPort (top v) (bottom v) False
+
+  renderLoopWithViewPortLine newDoc newViewPort
+
+renderLoopWithViewPort :: Doc -> ViewPort -> IO ()
+renderLoopWithViewPort d v =
+  if changed v
+    then renderLoopWithViewPortLine d v
+    else renderLoopWithViewPortRe d v
+
+-- add state to the render loop?? so that we can keep track of when to render
+-- the entire doc or just render the line thats currently being edited (this is
+-- for the view port)
+
+-- better way to render
