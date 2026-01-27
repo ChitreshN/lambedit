@@ -70,8 +70,8 @@ renderLoopWithViewPortLine d v = do
 renderLoopWithViewPort :: Doc -> ViewPort -> IO ()
 renderLoopWithViewPort d v =
   if changed v
-    then renderLoopWithViewPortLine d v
-    else renderLoopWithViewPortRe d v
+    then renderLoopWithViewPortRe d v
+    else renderLoopWithViewPortLine d v
 
 -- add state to the render loop?? so that we can keep track of when to render
 -- the entire doc or just render the line thats currently being edited (this is
