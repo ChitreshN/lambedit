@@ -72,9 +72,3 @@ renderLoopWithViewPort d v =
   if changed v
     then renderLoopWithViewPortRe d v
     else renderLoopWithViewPortLine d v
-
--- add state to the render loop?? so that we can keep track of when to render
--- the entire doc or just render the line thats currently being edited (this is
--- for the view port)
-
--- better way to render
