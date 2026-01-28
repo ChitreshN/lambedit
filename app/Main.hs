@@ -25,10 +25,13 @@ runEditor doc = do
     hSetBuffering stdin NoBuffering
     hSetEcho stdin False
     hSetBuffering stdout NoBuffering
+    s <- getTerminalSize
+    let (maxr, maxc) = case s of
+          Just (h, w) -> (h - 2, w - 2) -- if we subtract 1 instead, wierd behavior happens TODO: investigate
+          Nothing -> (24, 80) -- fallback
     hideCursor
     clearScreen
-    renderLoopWithViewPort doc (ViewPort 0 10 True)
-    -- renderLoop doc
+    renderLoopWithViewPort doc (ViewPort 0 maxr True)
     cleanup
 
 cleanup :: IO ()
